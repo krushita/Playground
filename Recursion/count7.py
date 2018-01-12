@@ -16,8 +16,25 @@ def count7(inp):
     else:
         return count7(inp/10)
 
-if __name__ == "__main__":
 
+# Given a string, compute recursively (no loops) the number of
+# lowercase 'x' chars in the string.
+# countX("xxhixx") -> 4
+# countX("xhixhix") -> 3
+# countX("hi") -> 0
+def countX(inp):
+    if (not isinstance(inp, str)):
+        raise ValueError("Invalid input (not a string)")
+
+    if (len(inp) == 0):
+        return 0
+
+    if (inp[-1] == 'x'):
+        return 1 + countX(inp[:-1])
+    else:
+        return countX(inp[:-1])
+
+def test_count7():
     inp = 17
     print "Count(", inp, ") = ", count7(inp)
 
@@ -33,3 +50,27 @@ if __name__ == "__main__":
     inp = -1
     print "Count(", inp, ") = ", count7(inp)
 
+def test_countX():
+    inp = 'xxx'
+    print "Count(", inp, ") = ", countX(inp)
+
+    inp = 'xyyyd'
+    print "Count(", inp, ") = ", countX(inp)
+
+    inp = 'abc'
+    print "Count(", inp, ") = ", countX(inp)
+
+    inp = "a"
+    print "Count(", inp, ") = ", countX(inp)
+
+    inp = ""
+    print "Count(", inp, ") = ", countX(inp)
+
+    inp = "x"
+    print "Count(", inp, ") = ", countX(inp)
+
+
+if __name__ == "__main__":
+
+    #test_count7()
+    test_countX()
