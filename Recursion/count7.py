@@ -34,6 +34,21 @@ def countX(inp):
     else:
         return countX(inp[:-1])
 
+#Count recursively the total number of "abc" and "aba" substrings that appear in the given string.
+
+#countAbc("abc") -> 1
+#countAbc("abcxxabc") -> 2
+#countAbc("abaxxaba") -> 2
+def countABC(inp, index):
+    if (index < 0) or (index > len(inp)-1):
+        raise ValueError('Invalid index')
+
+    if (index >= len(inp)-2):
+        return 0
+
+    return 1 + countABC(inp, index+1) if (inp.startswith('abc', index)) or (inp.startswith('aba', index)) else countABC(inp, index+1)
+
+
 def test_count7():
     inp = 17
     print "Count(", inp, ") = ", count7(inp)
@@ -70,7 +85,27 @@ def test_countX():
     print "Count(", inp, ") = ", countX(inp)
 
 
+def test_countABC():
+    inp = 'abc'
+    print '# of abc and aba in ', inp , '=', countABC(inp, 0)
+
+    inp = 'abcxxabc'
+    print '# of abc and aba in ', inp , '=', countABC(inp, 0)
+
+    inp = 'abaxxaba'
+    print '# of abc and aba in ', inp , '=', countABC(inp, 0)
+
+    inp = ''
+    print '# of abc and aba in ', inp , '=', countABC(inp, 0)
+
+    try:
+        inp = 5
+    except Exception, e:
+        print 'Error: ', str(e)
+
+
 if __name__ == "__main__":
 
     #test_count7()
-    test_countX()
+    #test_countX()
+    test_countABC()

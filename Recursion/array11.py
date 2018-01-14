@@ -1,3 +1,12 @@
+# Given an array of ints, compute recursively the number of times that the
+# value 11 appears in the array. We'll use the convention of considering only
+# the part of the array that begins at the given index. In this way, a 
+# recursive call can pass index+1 to move down the array. 
+# The initial call will pass in index as 0.
+
+# array11([1, 2, 11], 0) -> 1
+# array11([11, 11], 0) -> 2
+# array11([1, 2, 3, 4], 0) -> 0
 def isArray11(arr):
     if not isinstance(arr, list):
         return ValueError("Input not an array")
@@ -7,6 +16,16 @@ def isArray11(arr):
     else:
         return 1 + isArray(arr[1:]) if (arr[0] == 11) else isArray(arr[1:])
 
+
+# Given an array of ints, compute recursively if the array contains somewhere
+# a value followed in the array by that value times 10. We'll use the 
+# convention of considering only the part of the array that begins at the 
+# given index. In this way, a recursive call can pass index+1 to move down 
+# the array. The initial call will pass in index as 0.
+
+# array220([1, 2, 20], 0) → true
+# array220([3, 30], 0) → true
+# array220([3], 0) → false
 def isArray220(arr, index):
     if not isinstance(arr, list):
         return ValueError("Input not an array")
