@@ -48,6 +48,23 @@ def countABC(inp, index):
 
     return 1 + countABC(inp, index+1) if (inp.startswith('abc', index)) or (inp.startswith('aba', index)) else countABC(inp, index+1)
 
+# Given a string, compute recursively the number of times lowercase "hi" appears
+# in the string, however do not count "hi" that have an 'x' immedately before them.
+
+# countHi2("ahixhi") -> 1
+# countHi2("ahibhi") -> 2
+# countHi2("xhixhi") -> 0
+def countHi2(inp, index):
+    if (index < 0):
+        raise ValueError('Invalid index')
+
+    if (index > len(inp)-1):
+        return 0
+
+    if (inp.startswith('hi', index+1) and inp[index] == 'x'):
+        return 1 + countHi2(inp, index+3)
+    else:
+        return countHi2(inp, index+1)
 
 def test_count7():
     inp = 17
@@ -103,9 +120,23 @@ def test_countABC():
     except Exception, e:
         print 'Error: ', str(e)
 
+def test_countHi2():
+    inp = 'ahixhi'
+    print '# of xhi in ', inp , '=', countHi2(inp, 0)
+
+    inp = 'ahibhi'
+    print '# of xhi in ', inp , '=', countHi2(inp, 0)
+
+    inp = 'xhixhi'
+    print '# of xhi in ', inp , '=', countHi2(inp, 0)
+
+    inp = ''
+    print '# of xhi in ', inp , '=', countHi2(inp, 0)
+
 
 if __name__ == "__main__":
 
     #test_count7()
     #test_countX()
-    test_countABC()
+    #test_countABC()
+    test_countHi2()
