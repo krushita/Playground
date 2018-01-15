@@ -66,6 +66,29 @@ def countHi2(inp, index):
     else:
         return countHi2(inp, index+1)
 
+# Given a non-negative int n, compute recursively (no loops) the count of the 
+# occurrences of 8 as a digit, except that an 8 with another 8 immediately to 
+# its left counts double, so 8818 yields 4. Note that mod (%) by 10 yields the 
+# rightmost digit (126 % 10 is 6), while divide (/) by 10 removes the 
+# rightmost digit (126 / 10 is 12).
+
+# count8(8) -> 1
+# count8(818) -> 2
+# count8(8818) -> 4
+def count8(inp):
+    if (inp < 0):
+        raise ValueError('Invalid input number')
+
+    if inp == 0:
+        return 0
+
+    if (inp % 10) == 8:
+        next_inp = inp/10
+        return 2 + (count8(inp/10)) if (next_inp %10 == 8) else 1 + (count8(inp/10))
+    else:
+        return 0 + count8(inp/10)
+
+
 def test_count7():
     inp = 17
     print "Count(", inp, ") = ", count7(inp)
@@ -133,10 +156,20 @@ def test_countHi2():
     inp = ''
     print '# of xhi in ', inp , '=', countHi2(inp, 0)
 
+def test_count8():
+    inp = 8
+    print 'count8(', inp, ') = ', count8(inp)
+
+    inp = 818
+    print 'count8(', inp, ') = ', count8(inp)
+
+    inp = 8818
+    print 'count8(', inp, ') = ', count8(inp)
 
 if __name__ == "__main__":
 
     #test_count7()
     #test_countX()
     #test_countABC()
-    test_countHi2()
+    #test_countHi2()
+    test_count8()
