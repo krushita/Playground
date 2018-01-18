@@ -89,6 +89,24 @@ def count8(inp):
         return 0 + count8(inp/10)
 
 
+# Given a string, compute recursively (no loops) the number of "11" substrings
+# in the string. The "11" substrings should not overlap.
+
+# count11("11abc11") -> 2
+# count11("abc11x11x11") -> 3
+# count11("111") -> 1
+def count11(inp, index):
+    if (inp < 0):
+        raise ValueError('Invalid input number')
+
+    if (index > len(inp)-1):
+        return 0
+
+    if (inp.startswith('11', index)):
+        return 1 + count11(inp, index + 2)
+    else:
+        return count11(inp, index + 1)
+
 def test_count7():
     inp = 17
     print "Count(", inp, ") = ", count7(inp)
@@ -166,10 +184,31 @@ def test_count8():
     inp = 8818
     print 'count8(', inp, ') = ', count8(inp)
 
+def test_count11():
+    inp = "11abc11"
+    print 'count11(', inp, ') = ', count11(inp, 0)
+
+    inp = "abc11x11x11"
+    print 'count11(', inp, ') = ', count11(inp, 0)
+
+    inp = "111"
+    print 'count11(', inp, ') = ', count11(inp, 0)
+
+    inp = "1111"
+    print 'count11(', inp, ') = ', count11(inp, 0)
+
+    inp = "11111"
+    print 'count11(', inp, ') = ', count11(inp, 0)
+
+    inp = ""
+    print 'count11(', inp, ') = ', count11(inp, 0)
+
+
 if __name__ == "__main__":
 
     #test_count7()
     #test_countX()
     #test_countABC()
     #test_countHi2()
-    test_count8()
+    #test_count8()
+    test_count11()
