@@ -13,6 +13,8 @@ class Sort(object):
             return self.__merge_sort_caller(inp)
         elif self.sort_fn == 'quick':
             return self.__quick_sort(inp, 0, len(inp)-1)
+        elif self.sort_fn == 'quick_3':
+            return self.__quick_3_sort(inp, 0, len(inp)-1)
 
 
 
@@ -183,7 +185,52 @@ class Sort(object):
         inp[start] = temp
         return right
 
-                
+    # Similar to quick sort, but more efficient for repeated values.
+    # Use lt, gt and i
+    # Invariant : Values left of lt is less than pivot, right of gt is 
+    # greater than pivot and in between them is equal to pivot
+    # Partition the array: 
+    #  Pivot = inp[start]
+    #  Make lt/i and gt point to inp[start] and end positions of array.
+    #  Keep incrementing i and compare value at i to vaues at lt and gt
+    #    If inp[i] < pivot, exchange with inp[lt], i++, lt++
+    #    If inp[i] > pivot, exchange with inp[gt], gt--  (do NOT incr i, as next value at gt needs to be checked)
+    #    If inp[i] == pivot, NO exchange, i++
+    #  Repeat till i and gt cross each other. Pivot positon is finalized.
+    # Repeat quick3sort on left half and right half of array.
+    def __quick_3_sort(self, inp, start, end):
+        if start >= end:
+            return
+
+        # Parition array
+        lt, gt = self.__partition_quick_3_sort(inp, start, end)
+
+        self.__quick_3_sort(inp, start, lt-1)
+        self.__quick_3_sort(inp, gt+1, end)
+        return inp
+
+    def __partition_quick_3_sort(self, inp, start, end):
+        pivot = inp[start]
+        lt = i = start
+        gt = end
+
+        while i <= gt:
+            if inp[i] < pivot:
+                temp = inp[lt]
+                inp[lt] = inp[i]
+                inp[i] = temp
+                i += 1
+                lt += 1
+            elif inp[i] > pivot:
+                temp = inp[gt]
+                inp[gt] = inp[i]
+                inp[i] = temp
+                gt -= 1
+            elif inp[i] == pivot:
+                i += 1
+
+        return lt, gt
+              
 
 
 
@@ -193,7 +240,8 @@ if __name__ == "__main__":
     #sort = Sort('selection')
     #sort = Sort('shell')
     #sort = Sort('merge')
-    sort = Sort('quick')
+    #sort = Sort('quick')
+    sort = Sort('quick_3')
 
 
     inp_list = [[2,1],
