@@ -15,8 +15,8 @@ class Sort(object):
             return self.__quick_sort(inp, 0, len(inp)-1)
         elif self.sort_fn == 'quick_3':
             return self.__quick_3_sort(inp, 0, len(inp)-1)
-
-
+        elif self.sort_fn == 'heap':
+            return self.__heap_sort(inp)
 
     # For each element in the array, insert in the leftmost sorted array in
     # its right position. Sorted array starts with size 1 (leftmost element).
@@ -230,9 +230,50 @@ class Sort(object):
                 i += 1
 
         return lt, gt
-              
 
+    # Heapify is top-down. Compare parent with both children, and
+    # exchange with lesser child if parent > lesser child.
+    # Keep going till i becomes leaf node or i is less than both children
+    def __heapify(self, inp, size, i):
+        while(((2*i) + 1) <= size-1):
+            j = (2*i) + 1
+            if ((j < size-1) and inp[j+1] < inp[j]): # Find min of 2 children
+                j = j+1
+            if (inp[i] > inp[j]):
+                # Parent is greater than child, exchange it
+                temp = inp[i]
+                inp[i] = inp[j]
+                inp[j] = temp
+                i = j
+            else:
+                break
+        return inp
 
+    def __extract_min(self, inp, size):
+        # Exchange top element with last.
+        temp = inp[0]
+        inp[0] = inp[size-1]
+        inp[size-1] = temp
+        # Reduce size of heap array by 1
+        size = size-1
+        inp = self.__heapify(inp, size, 0)
+        return inp
+
+    # Insert the elements in a min-heap or convert input array to min-heap
+    # by heapifying for first half of array
+    # Then extract_min all the elements from the heap.
+    # Modify extract_min to leave the min at the end of the array
+    # and not delete it. After the last extract_min call,
+    # reverse the array in the heap.
+    def __heap_sort(self, inp):
+        mid = (len(inp)-1)/2
+        for i in range(mid, -1, -1):
+            inp = self.__heapify(inp, len(inp), i)
+        for i in range(len(inp)):
+            inp = self.__extract_min(inp, len(inp)-i)
+        # Read elements in reverse order to get sorted array
+        inp.reverse()
+        return inp
 
 
 if __name__ == "__main__":
@@ -241,7 +282,8 @@ if __name__ == "__main__":
     #sort = Sort('shell')
     #sort = Sort('merge')
     #sort = Sort('quick')
-    sort = Sort('quick_3')
+    #sort = Sort('quick_3')
+    sort = Sort('heap')
 
 
     inp_list = [[2,1],
